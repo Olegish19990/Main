@@ -6,7 +6,8 @@
 #include<dos.h>   
 #include <windows.h>  
 #include <time.h>
-
+#include <fstream>
+#include <string>
 using namespace std;
 int car_position = 30;
 int Enemy_position1Y = 0;
@@ -104,6 +105,35 @@ void sistings()
 
 
 }//Даем пользователю возмжность выбрать один из предложеных видов управления
+void inputResult(int coins) {
+	ofstream recordFill;
+	recordFill.open("records.txt");
+	recordFill << coins;
+	recordFill.close();
+}
+void SeeResult(int coins) {
+	cout << RESET;
+	int num = 0;
+	ifstream file;
+	file.open("records.txt");
+	if (!(file >> num))
+	{
+		file.close();
+		inputResult(0);
+	}
+	cout << "Хотите сохранить результат?\n1)Да \n2)Нет\n";
+	cin >> num;
+	if (num == 1) {
+			inputResult(coins);
+			cout << GREEN << "Ваш рекорд успешно сохранен!";
+			cout << RESET <<"\n";
+	}
+	else {
+		system("cls");
+		}
+}
+
+
 void Menu(); //Создаем протатив функции меню
 void Hit(int coins)
 {
@@ -116,6 +146,7 @@ void Hit(int coins)
 			gameLive = false;
 			system("cls");
 			cout<<RED<< "Вы проиграли, вы заработали: " <<YELLOW<<coins<<RED<< " очков "<<endl;
+			SeeResult(coins);
 			cout<<GREEN<< "1) Выйти в главное меню     "<<BLUE<<" 2) Выйти из игры\n";
 			cout << RESET;
 			cin >> v;
@@ -141,6 +172,8 @@ void game()
 	Enemy_position1Y = 0;
 	while (gameLive)
 	{
+		gotoxy(75,0);
+		cout<<YELLOW<< "Количевсто очков: "<<coins<<RESET;
 		if (Enemy == false) {
 			EnemyChans();
 		}
@@ -202,12 +235,12 @@ void Menu() {
 	cout << "   Добро пожаловать в" << endl;
 	cout << "       Гонки" << endl;
 	cout << "====================" << endl;
-	cout << "Выберите опцию:" << endl;
+	cout << "\nВыберите опцию:" << endl;
 	cout << BLUE << "1) Игра" << endl;
 	cout << "2) Правила" << endl;
 	cout << "3) Управление" << endl;
 	cout << "4) Выйти" << endl;
-	cout << RESET << "Введите номер опции: ";
+	cout << RESET << "\nВведите номер опции: ";
 	cin >> c;
 
 	switch (c) {
@@ -239,7 +272,9 @@ void Menu() {
 	case 4:
 		cout << "Выход из игры. До свидания!" << endl;
 	default:
+		
 		cout << "Неверный выбор. Попробуйте ещё раз." << endl;
+		Sleep(1000);
 		Menu();
 		break;
 	}
@@ -251,6 +286,12 @@ void Menu() {
 
 int main()
 {
+	const string filename = "records.txt";
+	ifstream fileCheck(filename);
+	if (!fileCheck.good()) {
+		ofstream createFile(filename);
+		createFile.close();
+	}
 	
 	setlocale(LC_ALL, "rus");
 	Enemy = true;
