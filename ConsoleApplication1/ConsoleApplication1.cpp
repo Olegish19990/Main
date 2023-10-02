@@ -24,6 +24,7 @@ int Enemy_position1X = 25;
 #define YELLOW  "\033[33m"
 #define BLUE    "\033[34m"
 #define RESET   "\033[0m"
+
 //Создаем макросы цветов
 
 int sist = 1;
@@ -88,7 +89,6 @@ void DeletePlayer()
 
 }//Удаляет машину игрока со старыми координатами 
 
-
 void sistings() 
 {
 	int n = 0;
@@ -105,33 +105,33 @@ void sistings()
 
 
 }//Даем пользователю возмжность выбрать один из предложеных видов управления
-void inputResult(int coins) {
-	ofstream recordFill;
-	recordFill.open("records.txt");
-	recordFill << coins;
-	recordFill.close();
-}
-void SeeResult(int coins) {
-	cout << RESET;
-	int num = 0;
-	ifstream file;
-	file.open("records.txt");
-	if (!(file >> num))
-	{
-		file.close();
-		inputResult(0);
-	}
-	cout << "Хотите сохранить результат?\n1)Да \n2)Нет\n";
-	cin >> num;
-	if (num == 1) {
-			inputResult(coins);
-			cout << GREEN << "Ваш рекорд успешно сохранен!";
-			cout << RESET <<"\n";
-	}
-	else {
-		system("cls");
-		}
-}
+//void inputResult(int coins) {
+//	ofstream recordFill;
+//	recordFill.open("records.txt");
+//	recordFill << coins;
+//	recordFill.close();
+//}
+//void SeeResult(int coins) {
+//	cout << RESET;
+//	int num = 0;
+//	ifstream file;
+//	file.open("records.txt");
+//	if (!(file >> num))
+//	{
+//		file.close();
+//		inputResult(0);
+//	}
+//	cout << "Хотите сохранить результат?\n1)Да \n2)Нет\n";
+//	cin >> num;
+//	if (num == 1) {
+//			inputResult(coins);
+//			cout << GREEN << "Ваш рекорд успешно сохранен!";
+//			cout << RESET <<"\n";
+//	}
+//	else {
+//		system("cls");
+//		}
+//}
 
 
 void Menu(); //Создаем протатив функции меню
@@ -251,8 +251,8 @@ void Menu() {
 		break;
 	case 2:
 		cout << "Правила игры:" << endl;
-		cout << "На вас едут противники(машины) ваша задача уклоняться от них как можно дольше, дольше продержитись - больше очков" << endl;
-		cout << "Нажмите 1 что бы вернуться назад в меню" << endl;
+		cout<< "\nНа вас едут противники(машины) ваша задача уклоняться от них как можно дольше, дольше продержитись - больше очков" << endl;
+		cout << "\nНажмите 1 что бы вернуться назад в меню" << endl;
 		cin >> n;
 		if (n == 1) {
 			Menu();
@@ -271,6 +271,8 @@ void Menu() {
 		break;
 	case 4:
 		cout << "Выход из игры. До свидания!" << endl;
+		Sleep(1000);
+		break;
 	default:
 		
 		cout << "Неверный выбор. Попробуйте ещё раз." << endl;
